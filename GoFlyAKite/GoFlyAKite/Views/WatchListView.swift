@@ -11,7 +11,11 @@ struct WatchListView: View {
             List(watches) { watch in
                 WatchRow(watch: watch, weatherState: viewModel.weatherState(for: watch))
                     .task {
-                        await viewModel.refreshWeather(for: watch, using: weatherService!)
+                        guard let weatherService else {
+                            assertionFailure("weatherService was not injected into the environment")
+                            return
+                        }
+                        await viewModel.refreshWeather(for: watch, using: weatherService)
                     }
             }
             .navigationTitle("watch-list-title".localized)

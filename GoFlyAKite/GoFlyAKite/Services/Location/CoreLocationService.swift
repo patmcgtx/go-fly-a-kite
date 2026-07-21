@@ -11,7 +11,11 @@ final class CoreLocationService: NSObject, LocationService, CLLocationManagerDel
     }
 
     func currentLocation() async throws -> CLLocationCoordinate2D {
-        try await withCheckedThrowingContinuation { continuation in
+        if let staleContinuation = continuation {
+            staleContinuation.resume(throwing: GoFlyAKiteError.locationUnavailable)
+            continuation = nil
+        }
+        return try await withCheckedThrowingContinuation { continuation in
             self.continuation = continuation
             manager.requestWhenInUseAuthorization()
             manager.requestLocation()

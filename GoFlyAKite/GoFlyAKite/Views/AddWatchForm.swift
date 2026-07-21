@@ -17,8 +17,12 @@ struct AddWatchForm: View {
                 }
                 TextField("add-watch".localized, text: $viewModel.label)
                 Button("use-current-location".localized) {
+                    guard let locationService else {
+                        assertionFailure("locationService was not injected into the environment")
+                        return
+                    }
                     Task {
-                        await viewModel.captureLocation(using: locationService!)
+                        await viewModel.captureLocation(using: locationService)
                     }
                 }
                 locationStatusView
@@ -48,7 +52,7 @@ struct AddWatchForm: View {
         case .capturing:
             ProgressView()
         case .captured:
-            Text("Location captured")
+            Text("location-captured".localized)
         case .failed:
             Text("location-permission-denied".localized)
         }

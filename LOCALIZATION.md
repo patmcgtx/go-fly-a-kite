@@ -46,7 +46,14 @@ All keys use kebab-case format and are limited to 24 characters. First-pass keys
 - `"cancel"` → "Cancel"
 - `"use-current-location"` → "Use Current Location"
 - `"location-permission-denied"` → "Location permission denied"
+- `"location-unavailable"` → "Location unavailable"
+- `"location-captured"` → "Location captured"
+- `"notification-permission-denied"` → "Notification permission denied"
+- `"save-failed"` → "Failed to save"
 - `"weather-fetch-failed"` → "Couldn't fetch weather"
+- `"loading"` → "Loading…"
+- `"conditions-met"` → "Conditions met"
+- `"no-alert"` → "No alert"
 
 ### Adding New Strings
 
@@ -72,11 +79,9 @@ The `Localizable.xcstrings` file contains:
 
 ## Info.plist Localization
 
-System strings like permission descriptions are localized using `InfoPlist.strings` files in language-specific `.lproj` directories:
-- `en.lproj/InfoPlist.strings` - English system strings
+`NSLocationWhenInUseUsageDescription` (the location permission message) is currently a single hardcoded English string directly in `Info.plist` — there is no `InfoPlist.strings` file yet, so this string does not follow the app language when it's changed.
 
-Currently localized system strings:
-- `NSLocationWhenInUseUsageDescription` - Location permission message
+To localize it once a second language is added: create `en.lproj/InfoPlist.strings` and `<locale>.lproj/InfoPlist.strings` files, move the string's value into each as `"NSLocationWhenInUseUsageDescription" = "...";`, and remove the literal value from the base `Info.plist` (Xcode will pull the localized value from the matching `.lproj` folder at runtime).
 
 ## Testing
 

@@ -4,6 +4,7 @@ import SwiftData
 
 @Model
 final class WeatherWatch {
+    var id: UUID = UUID()
     var kind: EventKind = EventKind.kite
     var label: String = ""
     var latitude: Double = 0.0

@@ -6,7 +6,7 @@ enum WeatherAlertEvaluator {
         case .kite:
             return snapshot.windSpeedMPH >= 15
         case .faucet:
-            return snapshot.lowTemperatureF <= 34
+            return snapshot.lowTemperatureF <= 32
         case .umbrella:
             return snapshot.precipitationChance >= 0.5
         }

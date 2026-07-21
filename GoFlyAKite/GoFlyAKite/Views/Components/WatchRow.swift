@@ -20,11 +20,11 @@ struct WatchRow: View {
     private var statusText: some View {
         switch weatherState {
         case .idle:
-            Text("watch-list-title".localized)
+            EmptyView()
         case .loading:
-            Text("Loading…")
+            Text("loading".localized)
         case .loaded(_, let triggered):
-            Text(triggered ? "Conditions met" : "No alert")
+            Text(triggered ? "conditions-met".localized : "no-alert".localized)
         case .failed:
             Text("weather-fetch-failed".localized)
         }
