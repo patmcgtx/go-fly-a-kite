@@ -1,12 +1,12 @@
 # Claude AI Assistant Instructions
 
-**Read ARCHITECTURE.md first** — This file provides context for AI assistants working on the MapPlus codebase. Always read `ARCHITECTURE.md` for the full technical details before making architectural decisions.
+**Read ARCHITECTURE.md first** — This file provides context for AI assistants working on the GoFlyAKite codebase. Always read `ARCHITECTURE.md` for the full technical details before making architectural decisions.
 
 ---
 
 ## Project Context
 
-MapPlus is an iOS app for saving and organizing personal points of interest. It uses SwiftUI, SwiftData, MapKit, and on-device AI (FoundationModels).
+GoFlyAKite is an iOS app that reminds you of weather-related events — flying a kite when wind is high, dropping the faucet when it's going to freeze, grabbing an umbrella when it's going to rain. It uses SwiftUI, SwiftData, WeatherKit, CoreLocation, and UserNotifications.
 
 ---
 
@@ -22,7 +22,7 @@ MapPlus is an iOS app for saving and organizing personal points of interest. It 
 
 ### Specific Rules
 
-1. **Mock services belong in `MapPlus/Services/Mock services/`**
+1. **Mock services belong in `GoFlyAKite/Services/Mock services/`**
    - All mock implementations must be wrapped in `#if DEBUG` / `#endif // DEBUG`
    - Mock services should mirror their protocol exactly
    - Mock services should be configurable (delays, return values, error states)
@@ -35,7 +35,7 @@ MapPlus is an iOS app for saving and organizing personal points of interest. It 
 3. **ViewModels are @Observable and @MainActor**
    - Use `@Observable` macro (Swift 5.9+), not `ObservableObject`
    - All ViewModels bound to `@MainActor`
-   - State machines use enums (e.g., `AddressSearchState`, `SaveState`)
+   - State machines use enums (e.g., `LocationCaptureState`, `WeatherLoadState`)
 
 4. **Testing with Swift Testing framework**
    - Use `@Test` macros, not XCTest
@@ -49,7 +49,8 @@ MapPlus is an iOS app for saving and organizing personal points of interest. It 
    - Models use `@Model` macro
    - Persistence is handled through SwiftData's `ModelContext`
    - Views use `@Query` for reactive fetching
-   - `LandmarkStore` is a thin wrapper for commits/deletes
+   - `WeatherWatchStore` is a thin wrapper for commits/deletes
+   - Every model property needs a default value (or be optional), and avoid `#Unique` — keeps the schema CloudKit-forward-compatible even though sync isn't wired up yet
 
 6. **Concurrency**
    - Use Swift Concurrency (async/await, actors) exclusively
@@ -58,7 +59,7 @@ MapPlus is an iOS app for saving and organizing personal points of interest. It 
 
 7. **Error handling**
    - Custom errors conform to `Error` protocol
-   - State machines represent error states explicitly (e.g., `.searchFailed(Error)`)
+   - State machines represent error states explicitly (e.g., `.failed(GoFlyAKiteError)`)
    - Services throw errors; ViewModels catch and update state
 
 ---
@@ -67,7 +68,7 @@ MapPlus is an iOS app for saving and organizing personal points of interest. It 
 
 ### Before writing code:
 
-1. **Search for related files** using `query_search` to understand existing patterns
+1. **Search for related files** to understand existing patterns
 2. **Read ARCHITECTURE.md** to understand the layer you're working in
 3. **Check for existing mocks** — don't duplicate mock services
 4. **Look for similar ViewModels or Views** to follow established patterns
@@ -76,7 +77,7 @@ MapPlus is an iOS app for saving and organizing personal points of interest. It 
 
 1. Define a protocol first
 2. Create the real implementation
-3. Create a mock implementation in `MapPlus/Services/Mock services/`
+3. Create a mock implementation in `GoFlyAKite/Services/Mock services/`
 4. Wrap the mock in `#if DEBUG` / `#endif // DEBUG`
 5. Add environment injection in `Environment.swift`
 6. Write tests using the mock
@@ -110,6 +111,7 @@ MapPlus is an iOS app for saving and organizing personal points of interest. It 
 - ❌ Don't forget to wrap mocks in `#if DEBUG`
 - ❌ Don't duplicate mock services — check if one exists first
 - ❌ Don't use XCTest assertions — use Swift Testing (`#expect`, `#require`)
+- ❌ Don't give `WeatherWatch` (or any future model) properties without defaults, or use `#Unique` — breaks CloudKit forward-compatibility
 
 ---
 
@@ -118,7 +120,7 @@ MapPlus is an iOS app for saving and organizing personal points of interest. It 
 Follow the structure in ARCHITECTURE.md:
 
 ```
-MapPlus/
+GoFlyAKite/
 ├── Services/
 │   ├── Mock services/        # ← All mocks go here, wrapped in #if DEBUG
 │   └── [Protocol files]
@@ -130,21 +132,6 @@ MapPlus/
 
 ---
 
-## Current Test Failures (as of 2026-06-14)
-
-The following tests are failing due to mock service configuration issues:
-
-- `testDifferentCoordinates()` — Mock returning "Coffee Shop" instead of parameterized names
-- `testInitializeLocationWithMultipleNearbyLocations()` — Mock not applying suggestions
-- `testIteratorState()` — Mock not returning configured location names
-- `testSingleMapItem()` — Mock returning "Coffee Shop" instead of "Golden Gate Bridge"
-
-**Root cause**: The mock services (likely `MockLocationService` or `MockPointOfInterestService`) are not respecting their configuration properties and are returning hardcoded default data.
-
-**Fix approach**: Update the mock to use configured `locationsToReturn` or similar property instead of hardcoded values.
-
----
-
 ## Questions to Ask
 
 When working on this codebase, if you're unsure:
@@ -152,7 +139,7 @@ When working on this codebase, if you're unsure:
 - **"Does a mock already exist for this service?"** → Search for "Mock" + service name
 - **"How do other ViewModels handle this pattern?"** → Search for similar ViewModels
 - **"What's the right way to inject this service?"** → Check `Environment.swift`
-- **"How should I test this?"** → Look at existing tests in `MapPlusTests/`
+- **"How should I test this?"** → Look at existing tests in `GoFlyAKiteTests/`
 - **"Where does this file belong?"** → Reference the directory structure in ARCHITECTURE.md
 
 ---
