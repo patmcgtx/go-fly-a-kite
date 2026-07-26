@@ -9,9 +9,23 @@ struct WatchListViewModelTests {
     @Test("Loading weather for a watch reports the triggered state")
     func refreshWeatherReportsTriggered() async {
         let viewModel = WatchListViewModel()
-        let watch = WeatherWatch(kind: .kite, label: "Test", latitude: 0, longitude: 0)
+        let watch = WeatherWatch(
+            kind: .windSpeed,
+            label: "Test",
+            latitude: 0,
+            longitude: 0,
+            comparison: .above,
+            thresholdValue: 15
+        )
         let mockService = MockWeatherService()
-        mockService.snapshotToReturn = WeatherSnapshot(windSpeedMPH: 25, precipitationChance: 0, lowTemperatureF: 60)
+        mockService.snapshotToReturn = WeatherSnapshot(
+            windSpeedMPH: 25,
+            precipitationChance: 0,
+            lowTemperatureF: 60,
+            highTemperatureF: 70,
+            currentTemperatureF: 65,
+            rainAccumulationInches: 0
+        )
 
         await viewModel.refreshWeather(for: watch, using: mockService)
 
@@ -26,7 +40,14 @@ struct WatchListViewModelTests {
     @Test("A failing weather service reports the failed state")
     func refreshWeatherReportsFailure() async {
         let viewModel = WatchListViewModel()
-        let watch = WeatherWatch(kind: .umbrella, label: "Test", latitude: 0, longitude: 0)
+        let watch = WeatherWatch(
+            kind: .rain,
+            label: "Test",
+            latitude: 0,
+            longitude: 0,
+            comparison: .above,
+            thresholdValue: 0.5
+        )
         let mockService = MockWeatherService()
         mockService.errorToThrow = GoFlyAKiteError.weatherFetchFailed
 

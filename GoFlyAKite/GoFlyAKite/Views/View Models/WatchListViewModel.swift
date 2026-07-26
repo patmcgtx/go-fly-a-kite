@@ -22,7 +22,7 @@ final class WatchListViewModel {
         weatherStateByWatchID[watch.persistentModelID] = .loading
         do {
             let snapshot = try await weatherService.snapshot(at: watch.coordinate)
-            let triggered = WeatherAlertEvaluator.isTriggered(kind: watch.kind, snapshot: snapshot)
+            let triggered = WeatherAlertEvaluator.isTriggered(watch: watch, snapshot: snapshot)
             weatherStateByWatchID[watch.persistentModelID] = .loaded(snapshot, triggered: triggered)
         } catch {
             weatherStateByWatchID[watch.persistentModelID] = .failed(.weatherFetchFailed)

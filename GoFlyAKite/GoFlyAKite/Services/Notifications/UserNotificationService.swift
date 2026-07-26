@@ -10,7 +10,7 @@ struct UserNotificationService: NotificationService {
     func scheduleReminder(for watch: WeatherWatch) async throws {
         let content = UNMutableNotificationContent()
         content.title = watch.label
-        content.body = watch.kind.titleKey.localized
+        content.body = watch.conditionDescription
 
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 60 * 60, repeats: false)
         let request = UNNotificationRequest(identifier: watch.id.uuidString, content: content, trigger: trigger)
