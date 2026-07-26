@@ -9,6 +9,9 @@ struct WatchRow: View {
             Image(systemName: watch.kind.symbolName)
             VStack(alignment: .leading) {
                 Text(watch.label)
+                Text(watch.conditionDescription)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
                 statusText
                     .font(.caption)
                     .foregroundStyle(.secondary)
