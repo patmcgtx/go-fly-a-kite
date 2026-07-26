@@ -10,22 +10,71 @@ struct AddWatchForm: View {
     var body: some View {
         NavigationStack {
             Form {
-                Picker("add-watch".localized, selection: $viewModel.kind) {
-                    ForEach(EventKind.allCases) { kind in
-                        Text(kind.titleKey.localized).tag(kind)
+                Section("Watch Type") {
+                    Picker("Condition", selection: $viewModel.kind) {
+                        ForEach(EventKind.allCases) { kind in
+                            Label(kind.titleKey, systemImage: kind.symbolName).tag(kind)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                    .onChange(of: viewModel.kind) { _, newValue in
+                        // Reset threshold to sensible default when kind changes
+                        viewModel.thresholdValue = viewModel.defaultThresholdValue
                     }
                 }
-                TextField("add-watch".localized, text: $viewModel.label)
-                Button("use-current-location".localized) {
-                    guard let locationService else {
-                        assertionFailure("locationService was not injected into the environment")
-                        return
+                
+                Section("Threshold") {
+                    Picker("When", selection: $viewModel.comparison) {
+                        ForEach(ThresholdComparison.allCases, id: \.self) { comparison in
+                            Text(comparison.displayName).tag(comparison)
+                        }
                     }
-                    Task {
-                        await viewModel.captureLocation(using: locationService)
+                    .onChange(of: viewModel.comparison) { _, _ in
+                        viewModel.thresholdValue = viewModel.defaultThresholdValue
+                    }
+                    
+                    HStack {
+                        Text("Value")
+                        Spacer()
+                        TextField("Threshold", value: $viewModel.thresholdValue, format: .number)
+                            .multilineTextAlignment(.trailing)
+                            .keyboardType(.decimalPad)
+                            .frame(width: 80)
+                        Text(viewModel.kind.unit)
+                            .foregroundStyle(.secondary)
+                    }
+                    
+                    Slider(
+                        value: $viewModel.thresholdValue,
+                        in: viewModel.thresholdRange,
+                        step: viewModel.thresholdStep
+                    ) {
+                        Text("Threshold")
+                    } minimumValueLabel: {
+                        Text("\(Int(viewModel.thresholdRange.lowerBound))")
+                            .font(.caption)
+                    } maximumValueLabel: {
+                        Text("\(Int(viewModel.thresholdRange.upperBound))")
+                            .font(.caption)
                     }
                 }
-                locationStatusView
+                
+                Section("Details") {
+                    TextField("Label", text: $viewModel.label, prompt: Text("e.g., Home, Work"))
+                }
+                
+                Section("Location") {
+                    Button("use-current-location".localized) {
+                        guard let locationService else {
+                            assertionFailure("locationService was not injected into the environment")
+                            return
+                        }
+                        Task {
+                            await viewModel.captureLocation(using: locationService)
+                        }
+                    }
+                    locationStatusView
+                }
             }
             .navigationTitle("add-watch".localized)
             .toolbar {
@@ -39,8 +88,17 @@ struct AddWatchForm: View {
                             dismiss()
                         }
                     }
+                    .disabled(!canSave)
                 }
             }
+        }
+    }
+    
+    private var canSave: Bool {
+        if !viewModel.label.isEmpty, case .captured = viewModel.locationCaptureState {
+            true
+        } else {
+            false
         }
     }
 
@@ -52,9 +110,17 @@ struct AddWatchForm: View {
         case .capturing:
             ProgressView()
         case .captured:
-            Text("location-captured".localized)
+            HStack {
+                Image(systemName: "checkmark.circle.fill")
+                    .foregroundStyle(.green)
+                Text("location-captured".localized)
+            }
         case .failed:
-            Text("location-permission-denied".localized)
+            HStack {
+                Image(systemName: "exclamationmark.triangle.fill")
+                    .foregroundStyle(.orange)
+                Text("location-permission-denied".localized)
+            }
         }
     }
 }

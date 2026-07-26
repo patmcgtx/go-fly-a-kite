@@ -7,9 +7,11 @@ struct WeatherWatchStore {
 
     func commit(_ watch: WeatherWatch) {
         context.insert(watch)
+        try? context.save()
     }
 
     func delete(_ watch: WeatherWatch) {
         context.delete(watch)
+        try? context.save()
     }
 }
