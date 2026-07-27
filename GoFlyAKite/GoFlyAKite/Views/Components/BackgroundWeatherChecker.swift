@@ -94,14 +94,27 @@ final class BackgroundWeatherChecker {
     private func checkWatch(_ watch: WeatherWatch) async {
         do {
             let snapshot = try await weatherService.snapshot(at: watch.coordinate)
-            let triggered = WeatherAlertEvaluator.isTriggered(watch: watch, snapshot: snapshot)
+            let isTriggered = WeatherAlertEvaluator.isTriggered(watch: watch, snapshot: snapshot)
             
-            if triggered {
-                print("🚨 Alert triggered for: \(watch.label)")
+            // State change detection: only notify on false→true transition
+            let shouldNotify = isTriggered && !watch.wasTriggeredOnLastCheck
+            
+            if shouldNotify {
+                print("🚨 Alert triggered for: \(watch.label) (state changed to triggered)")
                 try await sendNotification(for: watch, snapshot: snapshot)
+                watch.lastNotifiedDate = Date()
+            } else if isTriggered {
+                print("⚠️ Alert still triggered for: \(watch.label) (no new notification)")
             } else {
                 print("✓ No alert for: \(watch.label)")
             }
+            
+            // Update state for next check
+            watch.wasTriggeredOnLastCheck = isTriggered
+            
+            // Save the updated watch state
+            try? modelContext.save()
+            
         } catch {
             print("❌ Failed to check weather for \(watch.label): \(error.localizedDescription)")
         }

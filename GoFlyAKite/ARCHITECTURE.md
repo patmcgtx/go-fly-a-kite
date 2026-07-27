@@ -44,6 +44,8 @@ One `@Model` type forms the data model for this first pass:
 
 **CloudKit-forward-compat note:** every `WeatherWatch` property has a default value, and no `#Unique` constraints are used anywhere in the model. This is deliberate — CloudKit requires all properties to have a default or be optional, and doesn't support `#Unique` constraints. iCloud sync is deferred for now (see Future Work), but the model is designed so adding it later won't require reworking the schema.
 
+**Notification state tracking:** Each watch tracks `lastNotifiedDate` and `wasTriggeredOnLastCheck` to implement state change detection, preventing notification spam. Notifications are only sent when a condition transitions from not-triggered to triggered, not on every background check while the condition persists.
+
 Fetched weather data is **not persisted** — it's transient, in-memory-only state (`WeatherSnapshot`, see Service Layer) held by the view model. Persisting it would introduce a stale-data problem with no current benefit.
 
 `ModelContainers.swift` provides factory methods for both production and in-memory test containers.
@@ -111,6 +113,8 @@ Not every piece of logic needs a protocol + mock — only things that wrap an ex
   - Signal task completion to iOS
 
 **Design rationale:** Background tasks run in a completely separate execution context from the UI — the app may not even have any views in memory. Therefore, `BackgroundWeatherChecker` doesn't share the view layer's service instances or model context; it creates fresh ones on each invocation. This also means it can't be tested via UI tests, but its constituent parts (services, evaluator) are tested individually.
+
+**Notification deduplication:** The checker implements state change detection by tracking `wasTriggeredOnLastCheck` on each watch. Notifications are only sent when a condition transitions from false→true, preventing spam while conditions persist. After each check, the watch's state is updated and saved to SwiftData, ensuring persistence across app restarts. See `NOTIFICATION_DEDUPLICATION.md` for details.
 
 **iOS integration:** Requires `BGTaskSchedulerPermittedIdentifiers` in Info.plist and "Background fetch" capability. See `BACKGROUND_TASKS_SETUP.md` and `QUICK_START.md` for configuration details.
 

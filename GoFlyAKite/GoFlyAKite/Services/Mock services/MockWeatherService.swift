@@ -5,6 +5,7 @@ import Foundation
 final class MockWeatherService: WeatherService {
     var snapshotToReturn = WeatherSnapshot(
         windSpeedMPH: 12,
+        maxWindSpeedMPH: 18,
         precipitationChance: 0.1,
         lowTemperatureF: 55,
         highTemperatureF: 75,

@@ -17,6 +17,7 @@ struct WeatherAlertEvaluatorTests {
         
         let hotSnapshot = WeatherSnapshot(
             windSpeedMPH: 5,
+            maxWindSpeedMPH: 8,
             precipitationChance: 0,
             lowTemperatureF: 70,
             highTemperatureF: 90,
@@ -27,6 +28,7 @@ struct WeatherAlertEvaluatorTests {
         
         let coolSnapshot = WeatherSnapshot(
             windSpeedMPH: 5,
+            maxWindSpeedMPH: 8,
             precipitationChance: 0,
             lowTemperatureF: 60,
             highTemperatureF: 75,
@@ -49,6 +51,7 @@ struct WeatherAlertEvaluatorTests {
         
         let coldSnapshot = WeatherSnapshot(
             windSpeedMPH: 5,
+            maxWindSpeedMPH: 8,
             precipitationChance: 0,
             lowTemperatureF: 25,
             highTemperatureF: 35,
@@ -59,6 +62,7 @@ struct WeatherAlertEvaluatorTests {
         
         let warmSnapshot = WeatherSnapshot(
             windSpeedMPH: 5,
+            maxWindSpeedMPH: 8,
             precipitationChance: 0,
             lowTemperatureF: 40,
             highTemperatureF: 50,
@@ -80,7 +84,8 @@ struct WeatherAlertEvaluatorTests {
         )
         
         let windySnapshot = WeatherSnapshot(
-            windSpeedMPH: 20,
+            windSpeedMPH: 10,
+            maxWindSpeedMPH: 20,
             precipitationChance: 0,
             lowTemperatureF: 60,
             highTemperatureF: 70,
@@ -91,6 +96,7 @@ struct WeatherAlertEvaluatorTests {
         
         let calmSnapshot = WeatherSnapshot(
             windSpeedMPH: 5,
+            maxWindSpeedMPH: 8,
             precipitationChance: 0,
             lowTemperatureF: 60,
             highTemperatureF: 70,
@@ -113,6 +119,7 @@ struct WeatherAlertEvaluatorTests {
         
         let rainySnapshot = WeatherSnapshot(
             windSpeedMPH: 5,
+            maxWindSpeedMPH: 8,
             precipitationChance: 0.8,
             lowTemperatureF: 60,
             highTemperatureF: 70,
@@ -123,6 +130,7 @@ struct WeatherAlertEvaluatorTests {
         
         let drySnapshot = WeatherSnapshot(
             windSpeedMPH: 5,
+            maxWindSpeedMPH: 8,
             precipitationChance: 0.1,
             lowTemperatureF: 60,
             highTemperatureF: 70,
