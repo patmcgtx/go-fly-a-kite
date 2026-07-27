@@ -7,10 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		694094EB3016D72800CCE648 /* LOCALIZATION.md in Resources */ = {isa = PBXBuildFile; fileRef = 694094EA3016D72800CCE648 /* LOCALIZATION.md */; };
 		694094EC3016D72800CCE648 /* CLAUDE.md in Resources */ = {isa = PBXBuildFile; fileRef = 694094E93016D72800CCE648 /* CLAUDE.md */; };
-		694094ED3016D72800CCE648 /* ARCHITECTURE.md in Resources */ = {isa = PBXBuildFile; fileRef = 694094E83016D72800CCE648 /* ARCHITECTURE.md */; };
-		694094F33016DA3300CCE648 /* NOTIFICATION_DEDUPLICATION_SUMMARY.md in Resources */ = {isa = PBXBuildFile; fileRef = 694094F23016DA3300CCE648 /* NOTIFICATION_DEDUPLICATION_SUMMARY.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,10 +31,7 @@
 		6908DB0D300F0D3D00478E23 /* GoFlyAKite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoFlyAKite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6908DB1E300F0D3F00478E23 /* GoFlyAKiteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GoFlyAKiteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6908DB28300F0D3F00478E23 /* GoFlyAKiteUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GoFlyAKiteUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		694094E83016D72800CCE648 /* ARCHITECTURE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ARCHITECTURE.md; sourceTree = "<group>"; };
 		694094E93016D72800CCE648 /* CLAUDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CLAUDE.md; sourceTree = "<group>"; };
-		694094EA3016D72800CCE648 /* LOCALIZATION.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LOCALIZATION.md; sourceTree = "<group>"; };
-		694094F23016DA3300CCE648 /* NOTIFICATION_DEDUPLICATION_SUMMARY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = NOTIFICATION_DEDUPLICATION_SUMMARY.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -103,10 +97,7 @@
 				6908DB21300F0D3F00478E23 /* GoFlyAKiteTests */,
 				6908DB2B300F0D3F00478E23 /* GoFlyAKiteUITests */,
 				6908DB0E300F0D3D00478E23 /* Products */,
-				694094E83016D72800CCE648 /* ARCHITECTURE.md */,
 				694094E93016D72800CCE648 /* CLAUDE.md */,
-				694094EA3016D72800CCE648 /* LOCALIZATION.md */,
-				694094F23016DA3300CCE648 /* NOTIFICATION_DEDUPLICATION_SUMMARY.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -240,10 +231,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				694094EB3016D72800CCE648 /* LOCALIZATION.md in Resources */,
-				694094F33016DA3300CCE648 /* NOTIFICATION_DEDUPLICATION_SUMMARY.md in Resources */,
 				694094EC3016D72800CCE648 /* CLAUDE.md in Resources */,
-				694094ED3016D72800CCE648 /* ARCHITECTURE.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
