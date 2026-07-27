@@ -27,6 +27,10 @@ final class WeatherWatch {
     // Threshold configuration
     var comparison = ThresholdComparison.above
     var thresholdValue: Double = 0.0
+    
+    // Notification state tracking
+    var lastNotifiedDate: Date? = nil
+    var wasTriggeredOnLastCheck: Bool = false
 
     var coordinate: CLLocationCoordinate2D {
         CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
@@ -34,6 +38,14 @@ final class WeatherWatch {
     
     var conditionDescription: String {
         "\(kind.titleKey) \(comparison.displayName.lowercased()) \(Int(thresholdValue))\(kind.unit)"
+    }
+    
+    /// Returns true if enough time has passed since last notification for a periodic reminder
+    /// Currently set to 12 hours - can be used for future periodic reminder feature
+    var shouldSendPeriodicReminder: Bool {
+        guard let lastNotified = lastNotifiedDate else { return true }
+        let twelveHoursAgo = Date().addingTimeInterval(-12 * 60 * 60)
+        return lastNotified < twelveHoursAgo
     }
 
     init(kind: EventKind, label: String, latitude: Double, longitude: Double, comparison: ThresholdComparison = .above, thresholdValue: Double = 0.0) {

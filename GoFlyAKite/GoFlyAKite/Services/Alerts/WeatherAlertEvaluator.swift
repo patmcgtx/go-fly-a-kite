@@ -6,10 +6,23 @@ enum WeatherAlertEvaluator {
         
         switch watch.kind {
         case .temperature:
-            value = snapshot.currentTemperatureF
+            // Use forecast temps based on comparison direction
+            switch watch.comparison {
+            case .above:
+                value = snapshot.highTemperatureF // Will it get hot today?
+            case .below:
+                value = snapshot.lowTemperatureF // Will it get cold/freeze today?
+            }
         case .windSpeed:
-            value = snapshot.windSpeedMPH
+            // Use max wind forecast for "above", current for "below"
+            switch watch.comparison {
+            case .above:
+                value = snapshot.maxWindSpeedMPH // Will it get windy today?
+            case .below:
+                value = snapshot.windSpeedMPH // Is wind currently calm?
+            }
         case .rain:
+            // Use today's rain accumulation forecast
             value = snapshot.rainAccumulationInches
         }
         
