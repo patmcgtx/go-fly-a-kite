@@ -20,7 +20,15 @@ struct WatchListView: View {
             }
             .navigationTitle("watch-list-title".localized)
             .toolbar {
-                ToolbarItem {
+                ToolbarItem(placement: .topBarLeading) {
+                    NavigationLink {
+                        SettingsView()
+                    } label: {
+                        Label("Settings", systemImage: "gear")
+                    }
+                }
+                
+                ToolbarItem(placement: .topBarTrailing) {
                     Button(action: { viewModel.isShowingAddWatchSheet = true }) {
                         Label("add-watch".localized, systemImage: "plus")
                     }
