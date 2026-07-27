@@ -12,7 +12,7 @@ This is a personal project being built largely with AI assistance (Claude), one 
 What exists today:
 * SwiftUI + SwiftData app, iOS only (iPhone/iPad)
 * Add a "watch" (kite/faucet/umbrella) tied to a location, list it, fetch current conditions via WeatherKit
-* Protocol-based services (weather, location, notifications) with mocks for testing, following a layered architecture (see [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md))
+* Protocol-based services (weather, location, notifications) with mocks for testing, following a layered architecture (see [`GoFlyAKite/docs/ARCHITECTURE.md`](GoFlyAKite/docs/ARCHITECTURE.md))
 * Local-only persistence — data is on-device, not synced anywhere yet
 
 Not yet built:
@@ -21,4 +21,4 @@ Not yet built:
 * Watch detail view, filtering, and general UI polish
 * Actual scheduled local notifications tied to weather thresholds
 
-See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for the current architecture and its "Future Work" section for what's deliberately deferred.
+See [`GoFlyAKite/docs/ARCHITECTURE.md`](GoFlyAKite/docs/ARCHITECTURE.md) for the current architecture and its "Future Work" section for what's deliberately deferred.

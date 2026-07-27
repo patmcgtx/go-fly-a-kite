@@ -1,6 +1,6 @@
 # Claude AI Assistant Instructions
 
-**Read ../docs/ARCHITECTURE.md first** — This file provides context for AI assistants working on the GoFlyAKite codebase. Always read `../docs/ARCHITECTURE.md` for the full technical details before making architectural decisions.
+**Read docs/ARCHITECTURE.md first** — This file provides context for AI assistants working on the GoFlyAKite codebase. Always read `docs/ARCHITECTURE.md` for the full technical details before making architectural decisions.
 
 ---
 
@@ -69,7 +69,7 @@ GoFlyAKite is an iOS app that reminds you of weather-related events — flying a
 ### Before writing code:
 
 1. **Search for related files** to understand existing patterns
-2. **Read ../docs/ARCHITECTURE.md** to understand the layer you're working in
+2. **Read docs/ARCHITECTURE.md** to understand the layer you're working in
 3. **Check for existing mocks** — don't duplicate mock services
 4. **Look for similar ViewModels or Views** to follow established patterns
 
@@ -117,7 +117,7 @@ GoFlyAKite is an iOS app that reminds you of weather-related events — flying a
 
 ## File Organization
 
-Follow the structure in ../docs/ARCHITECTURE.md:
+Follow the structure in docs/ARCHITECTURE.md:
 
 ```
 GoFlyAKite/
@@ -140,10 +140,10 @@ When working on this codebase, if you're unsure:
 - **"How do other ViewModels handle this pattern?"** → Search for similar ViewModels
 - **"What's the right way to inject this service?"** → Check `Environment.swift`
 - **"How should I test this?"** → Look at existing tests in `GoFlyAKiteTests/`
-- **"Where does this file belong?"** → Reference the directory structure in ../docs/ARCHITECTURE.md
+- **"Where does this file belong?"** → Reference the directory structure in docs/ARCHITECTURE.md
 
 ---
 
 ## Summary
 
-**Always read ../docs/ARCHITECTURE.md first.** Follow the established patterns. Use protocols and mocks. Write comprehensive tests with Swift Testing. Keep the codebase clean, testable, and consistent.
+**Always read docs/ARCHITECTURE.md first.** Follow the established patterns. Use protocols and mocks. Write comprehensive tests with Swift Testing. Keep the codebase clean, testable, and consistent.
